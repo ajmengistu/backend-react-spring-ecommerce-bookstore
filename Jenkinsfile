@@ -10,7 +10,7 @@ pipeline {
                 echo '${lastGitCommit}'
             }
             steps {
-                echo '-- Build, Test, & Package Spring server --'
+                echo '-- Build, Test, & Package Spring server repository --'
                 sh './mvnw clean package'
             }
         }
