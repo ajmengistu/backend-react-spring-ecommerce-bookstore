@@ -25,8 +25,8 @@ node {
     stage('Build') {
         echo '-- Building project --'
         // build project, but skip running tests
-        sh 'mvn --version'
-        sh 'java --version'
+        // sh 'mvn --version'
+        // sh 'java --version'
         sh 'mvn clean install -DskipTests'
     }
     
