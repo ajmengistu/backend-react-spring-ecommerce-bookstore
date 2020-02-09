@@ -16,13 +16,5 @@ pipeline {
                 sh 'which mvn'
             }
         }
-        
-        stage('test docker installation') {
-            steps {
-                sh 'docker -v'
-                sh 'docker version'
-                sh 'which docker'
-            }
-        }
     }
 }
