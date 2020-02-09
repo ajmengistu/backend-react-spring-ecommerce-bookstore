@@ -4,6 +4,12 @@ pipeline {
         maven 'maven3.6.3'
     }
     stages {
+        stage('test java installation') {
+            steps {
+                sh 'java -version'
+                sh 'which java'
+            }
+        }
         stage('test maven installation') {
             steps {
                 sh 'mvn -version'
