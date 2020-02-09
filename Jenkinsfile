@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven3.6.3'
-        docker 'docker'
-    }
     stages {
         stage('test java installation') {
             steps {
