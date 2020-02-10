@@ -23,13 +23,13 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build') {
-            steps {
-                echo '-- Building project --'
-                // build project, but skip running tests
-                sh 'mvn clean install -DskipTests'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         echo '-- Building project --'
+        //         // build project, but skip running tests
+        //         sh 'mvn clean install -DskipTests'
+        //     }
+        // }
         stage('Test') {
             steps {
                 echo '-- Testing project --'        
