@@ -23,18 +23,18 @@ pipeline {
                 checkout scm
             }
         }
-        // stage('Build') {
-        //     steps {
-        //         echo '-- Building project --'
-        //         // build project, but skip running tests
-        //         sh 'mvn clean install -DskipTests'
-        //     }
-        // }
-        stage('Test') {
+        stage('Build') {
             steps {
-                echo '-- Testing project --'        
-                sh 'mvn test'
+                echo '-- Building project --'
+                // build project, but skip running tests
+                sh 'mvn spring-boot:run'
             }
         }
+        // stage('Test') {
+        //     steps {
+        //         echo '-- Testing project --'        
+        //         sh 'mvn test'
+        //     }
+        // }
     }
 }
