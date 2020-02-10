@@ -33,14 +33,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo '-- Testing project --'        
-                try {
-                    // run tests after project build
-                    sh 'mvn test'
-                } catch(e) {
-                    // if any exception occurs, mark the build as failed
-                    currentBuild.result = 'FAILURE'
-                    throw e
-                }
+                sh 'mvn test'
             }
         }
     }
