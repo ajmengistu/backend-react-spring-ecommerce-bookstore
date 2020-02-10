@@ -30,11 +30,11 @@ pipeline {
                 sh 'mvn clean install -DskipTests'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         echo '-- Testing project --'        
-        //         sh 'mvn test'
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                echo '-- Testing project --'        
+                sh 'mvn test'
+            }
+        }
     }
 }
