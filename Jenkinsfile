@@ -1,17 +1,39 @@
-pipeline {
+ipipeline {
     agent any
+    tools {
+        maven 'maven3.6.3'
+    }
     stages {
-        stage('Back-end') {            
+        stage('test java installation') {
+            steps {
+                sh 'java -version'
+                sh 'which java'
+            }
+        }
+        stage('test maven installation') {
+            steps {
+                sh 'mvn -version'
+                sh 'which mvn'
+            }
+        }
+        stage('Checkout spring java project') {
             steps {
                 echo '-- Checking out project repository --'
-                checkout scm 
-                // sh 'git log --pretty="[%h] %an: %s" -1 HEAD > LAST_GIT_COMMIT'
-                // def lastGitCommit = readFile('LAST_GIT_COMMIT')
-                // echo '${lastGitCommit}'
+                // checkout code from repo
+                checkout scm
             }
+        }
+        stage('Build') {
             steps {
-                echo '-- Build, Test, & Package Spring server repository --'
-                sh './mvnw clean package'
+                echo '-- Building project --'
+                // build project, but skip running tests
+                sh 'mvn clean install -DskipTests'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo '-- Testing project --'        
+                sh 'mvn test'
             }
         }
     }
