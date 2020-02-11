@@ -1,0 +1,18 @@
+server:
+    port: 8081
+spring:
+    profiles:
+        active: dev 
+
+    jpa:
+        hibernate:
+            ddl-auto: create
+        show-sql: true
+
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/reactspring_monolithic_bookstore_db
+        username: root
+        password: admin
+        
+# Command line: mvn spring-boot:run -Dspring-boot.run.profiles=default (or) mvn spring-boot:run 

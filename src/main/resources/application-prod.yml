@@ -1,2 +1,19 @@
 # It's important that the -D parameters are before your application.jar otherwise they are not recognized.
 # java -jar -Dspring.profiles.active=prod application.jar
+server:
+    port: 8080
+spring:
+    profiles:
+        active: prod 
+
+    jpa:
+        hibernate:
+            ddl-auto: create
+        show-sql: true
+
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: ${SPRING_DATASOURCE_URL}
+        username: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
+# Command line: mvn spring-boot:run -Dspring-boot.run.profiles=default (or) mvn spring-boot:run 
