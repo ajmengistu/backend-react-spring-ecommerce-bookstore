@@ -27,13 +27,13 @@ pipeline {
             steps {
                 echo '-- Building project --'
                 // build project, but skip running tests
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean install -DskipTests=true'
             }
         }
         stage('Test') {
             steps {
                 echo '-- Testing project --'        
-                sh 'mvn test'
+                sh 'mvn test -Dspring.profiles.active=test'
             }
         }
     }
