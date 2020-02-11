@@ -36,5 +36,11 @@ pipeline {
                 sh 'mvn test -Dspring.profiles.active=test'
             }
         }
+        stage('Deploy to Heroku') {
+            steps {
+                echo '-- Deploying project to Heroku --'
+                sh 'mvn clean heroku:deploy -Dspring.profiles.active=test'
+            }
+        }
     }
 }
