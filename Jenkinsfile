@@ -27,15 +27,15 @@ pipeline {
             steps {
                 echo '-- Building project --'
                 // build project, but skip running tests
-                sh 'mvn clean install -DskipTests=true'
+                sh 'mvn clean install'
             }
         }
-        stage('Test') {
-            steps {
-                echo '-- Testing project --'        
-                sh 'mvn test -Dspring.profiles.active=test'
-            }
-        }
+        // stage('Test') {
+           //  steps {
+              //  echo '-- Testing project --'        
+                // sh 'mvn test -Dspring.profiles.active=test'
+            //}
+        // }
         // stage("build & SonarQube analysis") {
         //     steps {
         //       // withSonarQubeEnv('SonarQubeScanner') {
