@@ -27,7 +27,7 @@ pipeline {
             steps {
                 echo '-- Building project --'
                 // build project, but skip running tests
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipTests=true'
             }
         }
         // stage('Test') {
