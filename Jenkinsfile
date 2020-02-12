@@ -38,9 +38,9 @@ pipeline {
         // }
         stage("build & SonarQube analysis") {
             steps {
-              withSonarQubeEnv('SonarQubeScanner') {
+              // withSonarQubeEnv('SonarQubeScanner') {
                 sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://localhost:9000' 
-              }
+              // }
             }
         }
         stage("Quality Gate") {
