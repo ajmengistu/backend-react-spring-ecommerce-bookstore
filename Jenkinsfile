@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    // tools {
-    //     maven 'maven3.6.3'
-    // }
+    tools {
+    	maven 'maven3.6.3'
+    }
     stages {
         stage('test java installation') {
             steps {
@@ -30,12 +30,12 @@ pipeline {
                 sh 'mvn clean install -DskipTests=true'
             }
         }
-        // stage('Test') {
-           //  steps {
-              //  echo '-- Testing project --'        
-                // sh 'mvn test -Dspring.profiles.active=test'
-            //}
-        // }
+        stage('Test') {
+            steps {
+               echo '-- Testing project --'        
+                sh 'mvn test -Dspring.profiles.active=test'
+            }
+        }
         // stage("build & SonarQube analysis") {
         //     steps {
         //       // withSonarQubeEnv('SonarQubeScanner') {

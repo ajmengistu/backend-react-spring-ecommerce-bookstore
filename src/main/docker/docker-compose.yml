@@ -7,21 +7,23 @@ services:
             - 5000:5000
         volumes: 
             -  ~/volumes/jenkins_home:/var/jenkins_home
-    postgres:
-        image: postgres:latest
-        environment: 
-            - POSTGRES_USER=root
-            - POSTGRES_PASSWORD=admin
-        ports:
-            - 5432:5432
-        volumes:
-            - database-data:/var/lib/postgresql/data/
-    sonarqube:
-        image: sonarqube
-        ports:
-            - 9000:9000
-networks: 
-    default:
-        driver: bridge
-volumes: 
-    database-data:
+#     postgres:
+#         image: postgres:latest
+#         environment: 
+#             - POSTGRES_USER=root
+#             - POSTGRES_PASSWORD=admin
+#         ports:
+#             - 5432:5432
+#         volumes:
+#             - database-data:/var/lib/postgresql/data/
+#             # update: local database persistence to look similar to jenkins: ~/volumes/database-data
+#             # (volumes: basically mapping a local repository to a repository inside your container)
+#     sonarqube:
+#         image: sonarqube
+#         ports:
+#             - 9000:9000
+# networks: 
+#     default:
+#         driver: bridge
+# volumes: 
+#     database-data:
