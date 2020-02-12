@@ -36,11 +36,25 @@ pipeline {
                 sh 'mvn test -Dspring.profiles.active=test'
             }
         }
-        stage('Deploy to Heroku') {
+        stage("build & SonarQube analysis") {
             steps {
-                echo '-- Deploying project to Heroku --'
-                sh 'mvn clean heroku:deploy -Dspring.profiles.active=test'
+              withSonarQubeEnv('My SonarQube Server') {
+                sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://localhost:9000' 
+              }
             }
         }
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+        }
+        // stage('Deploy to Heroku') {
+        //     steps {
+        //         echo '-- Deploying project to Heroku --'
+        //         sh 'mvn clean heroku:deploy -Dspring.profiles.active=test'
+        //     }
+        // }
     }
 }

@@ -96,11 +96,6 @@
 			<plugin>
 				<groupId>com.heroku.sdk</groupId>
 				<artifactId>heroku-maven-plugin</artifactId>
-				<!-- Deploy only the single executable JAR file to production -->
-				<!-- <includeTarget>false</includeTarget> -->
-				<!-- <includes>
-					<include>target/bookstore-0.0.1-SNAPSHOT.jar</include>
-				</includes> -->
 				<configuration>
 					<appName>bookstore-react-spring</appName>
 					<processTypes>
