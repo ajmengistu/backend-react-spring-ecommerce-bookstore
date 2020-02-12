@@ -16,13 +16,13 @@ pipeline {
         //         sh 'which mvn'
         //     }
         // }
-        // stage('Checkout spring java project') {
-        //     steps {
-        //         echo '-- Checking out project repository --'
-        //         // checkout code from repo
-        //         checkout scm
-        //     }
-        // }
+        stage('Checkout spring java project') {
+            steps {
+                echo '-- Checking out project repository --'
+                // checkout code from repo
+                checkout scm
+            }
+        }
         // stage('Build') {
         //     steps {
         //         echo '-- Building project --'
@@ -39,13 +39,13 @@ pipeline {
         stage("build & SonarQube analysis") {
             steps {
               // withSonarQubeEnv('SonarQubeScanner') {
-                sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://localhost:9000' 
+                sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://localhost:9000 -DskipTests=true'
               // }
             }
         }
         stage("Quality Gate") {
             steps {
-              timeout(time: 10, unit: 'MINUTES') {
+              timeout(time: 1, unit: 'MINUTES') {
                 waitForQualityGate abortPipeline: true
               }
             }

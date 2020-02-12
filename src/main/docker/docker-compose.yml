@@ -1,0 +1,27 @@
+version: '2'
+services: 
+    jenkins:
+        image: jenkins/jenkins:lts
+        ports:
+            - 8080:8080
+            - 5000:5000
+        volumes: 
+            -  ~/volumes/jenkins_home:/var/jenkins_home
+    postgres:
+        image: postgres:latest
+        environment: 
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=admin
+        ports:
+            - 5432:5432
+        volumes:
+            - database-data:/var/lib/postgresql/data/
+    sonarqube:
+        image: sonarqube
+        ports:
+            - 9000:9000
+networks: 
+    default:
+        driver: bridge
+volumes: 
+    database-data:
