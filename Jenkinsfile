@@ -22,12 +22,12 @@ pipeline {
                 // checkout code from repo
                 checkout scm
                 // Send Slack a notification that the current project has been checked out for building, testing, and deployment.
-                sh 'git log --pretty="[%h] %an: %s" -1 HEAD > LAST_GIT_COMMIT'
-                def lastGitCommit = readFile('LAST_GIT_COMMIT')
+                // sh 'git log --pretty="[%h] %an: %s" -1 HEAD > LAST_GIT_COMMIT'
+                // def lastGitCommit = readFile('LAST_GIT_COMMIT')
                 // Note: must install the Slack Notification Jenkins plugin to send Slack notifications via slackSend command.
                 slackSend(
                     color: "warning", 
-                    message: "Started `${env.JOB_NAME}#${env.BUILD_NUMBER}` The changes: ${lastGitCommit}"
+                    message: "Started `${env.JOB_NAME}#${env.BUILD_NUMBER}`"
                 )
             }
         }
