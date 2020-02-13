@@ -27,7 +27,7 @@ pipeline {
                 // Note: must install the Slack Notification Jenkins plugin to send Slack notifications via slackSend command.
                 slackSend(
                     color: "warning", 
-                    message: "Started `${env.JOB_NAME}#${env.BUILD_NUMBER}`\N\N_The changes:_\n${lastGitCommit}"
+                    message: "Started `${env.JOB_NAME}#${env.BUILD_NUMBER}` The changes: ${lastGitCommit}"
                 )
             }
         }
