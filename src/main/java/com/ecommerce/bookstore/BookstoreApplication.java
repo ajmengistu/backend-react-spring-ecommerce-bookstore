@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = {"http://localhost:3000/", "https://frontend-bookstore-react-sp.herokuapp.com/"})
+@CrossOrigin(origins = {"http://localhost:3000/", "https://frontend-bookstore-react-sp.herokuapp.com/", "https://frontend-bookstore-react-spring.netlify.com/"})
 @RestController
 @SpringBootApplication
 public class BookstoreApplication {
@@ -23,7 +23,7 @@ public class BookstoreApplication {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 
-	@GetMapping("/greeting")
+	@GetMapping("/api")
 	public List<User> getHome() {
 		return userRepository.findAll();
 	}
