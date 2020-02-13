@@ -22,12 +22,12 @@ public class BookstoreApplicationTests{
 
 	@Test
 	public void shouldReturnDefaultMessage() throws Exception {
-		this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Albert")));
+		this.mockMvc.perform(get("/api")).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().string(containsString("Tesla Motors")));
 	}
 	@Test
 	public void shouldReturnDefault() throws Exception {
-		this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Tomas")));
+		this.mockMvc.perform(get("/api")).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().string(containsString("Thomas Jefferson")));
 	}
 }
