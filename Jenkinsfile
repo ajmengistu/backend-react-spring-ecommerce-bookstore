@@ -32,15 +32,19 @@ pipeline {
             }
         }
         stage('Build') {
-            steps {
-                echo '-- Building project --'
-                // build project, but skip running tests
+            // steps {
+                try {
+                    echo '-- Building project --'
+                 // build project, but skip running tests
                 // sh 'mvn clean install -DskipTests=true'
-                slackSend(
-                    color: "good", 
-                    message: "Build successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
-                )
-            }
+                    slackSend(
+                        color: "good", 
+                        message: "Build successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
+                    )
+                } catch(err) {
+                    throw err
+                }
+            // }
         }
         stage('Test') {
             steps {
