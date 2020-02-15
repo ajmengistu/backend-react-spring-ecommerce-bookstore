@@ -16,6 +16,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 /**
  * Base abstract class for entities which will hold definitions for created,
  * last modified by and created, last modified by date.
+ *
+ *  Source: Jhipster (React + Spring)
  */
 @MappedSuperclass
 public abstract class AbstractAuditingEntity implements Serializable {

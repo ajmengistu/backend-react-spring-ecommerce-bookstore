@@ -11,6 +11,8 @@ import javax.validation.constraints.Size;
 
 /**
  * An authority (a security role) used by Spring Security
+ * 
+ * Source: Jhipster (React + Spring)
  */
 @Entity
 @Table(name = "authority")
