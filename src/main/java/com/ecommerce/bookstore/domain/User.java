@@ -1,6 +1,9 @@
 package com.ecommerce.bookstore.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,14 +11,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A user.
  */
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,15 +30,51 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    // @Pattern(regexp = Constants.LOGIN_REGEX)
+    @Size(min = 2, max = 50)
+    @Column(length = 50, unique = true, nullable = false)
+    private String login;
+
+    @JsonIgnore
+    @NotNull
+    @Size(min = 60, max = 60)
+    @Column(name = "password_hash", length = 60, nullable = false)
+    private String password;
+
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
 
-    public User() {
-    }
+    @Size(max = 50)
+    @Column(name = "last_name", length = 50)
+    private String lastName;
 
-    public User(String firstName) {
-        this.firstName = firstName;
+    @Email
+    @Size(min = 5, max = 254)
+    @Column(length = 254, unique = true, nullable = false)
+    private String email;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean activated = false;
+
+    @Size(max = 20)
+    @Column(name = "activation_key", length = 20)
+    @JsonIgnore
+    private String activationKey;
+
+    @Size(max = 20)
+    @Column(name = "reset_key", length = 20)
+    @JsonIgnore
+    private String resetKey;
+
+    @Column(name = "reset_date")
+    private Instant resetDate = null;
+
+    private Collection<Authority> authorities = new HashSet<>();
+
+    public User() {
     }
 
     public Long getId() {
@@ -42,6 +85,23 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    // Lowercase the login before saving it in database
+    public void setLogin(String login) {
+        this.login = login.toLowerCase();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -50,12 +110,77 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getResetKey() {
+        return resetKey;
+    }
+
+    public void setResetKey(String resetKey) {
+        this.resetKey = resetKey;
+    }
+
+    public Instant getResetDate() {
+        return resetDate;
+    }
+
+    public void setResetDate(Instant resetDate) {
+        this.resetDate = resetDate;
+    }
+
+    public Collection<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + (activated ? 1231 : 1237);
+        result = prime * result + ((activationKey == null) ? 0 : activationKey.hashCode());
+        result = prime * result + ((authorities == null) ? 0 : authorities.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((resetDate == null) ? 0 : resetDate.hashCode());
+        result = prime * result + ((resetKey == null) ? 0 : resetKey.hashCode());
         return result;
     }
 
@@ -68,6 +193,23 @@ public class User implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         User other = (User) obj;
+        if (activated != other.activated)
+            return false;
+        if (activationKey == null) {
+            if (other.activationKey != null)
+                return false;
+        } else if (!activationKey.equals(other.activationKey))
+            return false;
+        if (authorities == null) {
+            if (other.authorities != null)
+                return false;
+        } else if (!authorities.equals(other.authorities))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
         if (firstName == null) {
             if (other.firstName != null)
                 return false;
@@ -78,11 +220,38 @@ public class User implements Serializable {
                 return false;
         } else if (!id.equals(other.id))
             return false;
+        if (lastName == null) {
+            if (other.lastName != null)
+                return false;
+        } else if (!lastName.equals(other.lastName))
+            return false;
+        if (login == null) {
+            if (other.login != null)
+                return false;
+        } else if (!login.equals(other.login))
+            return false;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (resetDate == null) {
+            if (other.resetDate != null)
+                return false;
+        } else if (!resetDate.equals(other.resetDate))
+            return false;
+        if (resetKey == null) {
+            if (other.resetKey != null)
+                return false;
+        } else if (!resetKey.equals(other.resetKey))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "User [firstName=" + firstName + ", id=" + id + "]";
+        return "User [activated=" + activated + ", activationKey=" + activationKey + ", authorities=" + authorities
+                + ", email=" + email + ", firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", login="
+                + login + ", password=" + password + ", resetDate=" + resetDate + ", resetKey=" + resetKey + "]";
     }
 }

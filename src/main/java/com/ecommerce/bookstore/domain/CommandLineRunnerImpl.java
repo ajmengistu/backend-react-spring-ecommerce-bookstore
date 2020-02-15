@@ -17,8 +17,8 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        Stream.of("SpaceX", "Blue Origin", "Tesla Motors", "Thomas Jefferson", "Einstein", "Asimov", "Franklin",
-                "Sagan").forEach(x -> userRepository.save(new User(x)));
+        // Stream.of("SpaceX", "Blue Origin", "Tesla Motors", "Thomas Jefferson", "Einstein", "Asimov", "Franklin",
+        //         "Sagan").forEach(x -> userRepository.save(new User(x)));
 
         userRepository.findAll().forEach(System.out::println);
     }
