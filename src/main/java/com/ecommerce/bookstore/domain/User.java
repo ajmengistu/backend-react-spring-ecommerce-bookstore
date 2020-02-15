@@ -37,7 +37,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     // @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 2, max = 50)
     @Column(length = 50, unique = true, nullable = false)
-    private String login;
+    private String username;
 
     @JsonIgnore
     @NotNull
@@ -93,13 +93,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
     // Lowercase the login before saving it in database
-    public void setLogin(String login) {
-        this.login = login.toLowerCase();
+    public void setUsername(String username) {
+        this.username = username.toLowerCase();
     }
 
     public String getPassword() {
@@ -185,7 +185,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((resetDate == null) ? 0 : resetDate.hashCode());
         result = prime * result + ((resetKey == null) ? 0 : resetKey.hashCode());
@@ -233,10 +233,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
                 return false;
         } else if (!lastName.equals(other.lastName))
             return false;
-        if (login == null) {
-            if (other.login != null)
+        if (username == null) {
+            if (other.username != null)
                 return false;
-        } else if (!login.equals(other.login))
+        } else if (!username.equals(other.username))
             return false;
         if (password == null) {
             if (other.password != null)
@@ -259,7 +259,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Override
     public String toString() {
         return "User [activated=" + activated + ", activationKey=" + activationKey + ", authorities=" + authorities
-                + ", email=" + email + ", firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", login="
-                + login + ", password=" + password + ", resetDate=" + resetDate + ", resetKey=" + resetKey + "]";
+                + ", email=" + email + ", firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", username="
+                + username + ", password=" + password + ", resetDate=" + resetDate + ", resetKey=" + resetKey + "]";
     }
 }
