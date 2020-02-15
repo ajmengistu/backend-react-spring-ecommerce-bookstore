@@ -18,11 +18,11 @@ services:
 #             - ~/volumes/database-data:/var/lib/postgresql/data/
 #             # update: local database persistence to look similar to jenkins: ~/volumes/database-data
 #             # (volumes: basically mapping a local repository to a repository inside your container)
-    sonarqube:
-        image: sonarqube
-        ports:
-            - 9000:9000
-networks: 
+#     sonarqube:
+#         image: sonarqube
+#         ports:
+#             - 9000:9000
+# networks: 
     default:
         driver: bridge
 # volumes: 
