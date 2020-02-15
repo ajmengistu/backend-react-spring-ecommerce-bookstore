@@ -1,3 +1,7 @@
+logging:
+    level:
+        ROOT: DEBUG
+        com.ecommerce.bookstore: DEBUG
 server:
     port: 8082
 

@@ -1,5 +1,9 @@
 # It's important that the -D parameters are before your application.jar otherwise they are not recognized.
 # java -jar -Dspring.profiles.active=prod application.jar
+logging:
+    level:
+        ROOT: INFO
+        com.ecommerce.bookstore: INFO
 server:
     port: 8080
 spring:
