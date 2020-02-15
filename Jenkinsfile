@@ -29,35 +29,35 @@ pipeline {
                 )
             }
         }
-        // stage('Build') {
-        //     steps {
-        //         echo '-- Building project --'
-        //          // build project, but skip running tests
-        //         sh 'mvn clean install -DskipTests=true'
-        //         slackSend(
-        //             color: "good", 
-        //             message: "Build successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
-        //         )
-        //     }
-        // }
-        // stage('Test') {
-        //     steps {
-        //        echo '-- Testing project --'        
-        //        sh 'mvn test -Dspring.profiles.active=test'
-        //        slackSend(
-        //            color: "good", 
-        //            message: "Tests successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
-        //        )
-        //     }
-        // }
-        stage("build & SonarQube analysis") {
+        stage('Build') {
             steps {
-              // withSonarQubeEnv('SonarQubeScanner') {
-                // sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://localhost:9000 -DskipTests=true'
-                sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://8095fdca.ngrok.io -DskipTests=true'
-              // }
+                echo '-- Building project --'
+                 // build project, but skip running tests
+                sh 'mvn clean install -DskipTests=true'
+                slackSend(
+                    color: "good", 
+                    message: "Build successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
+                )
             }
         }
+        stage('Test') {
+            steps {
+               echo '-- Testing project --'        
+               sh 'mvn test -Dspring.profiles.active=test'
+               slackSend(
+                   color: "good", 
+                   message: "Tests successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
+               )
+            }
+        }
+        // stage("build & SonarQube analysis") {
+        //     steps {
+        //       // withSonarQubeEnv('SonarQubeScanner') {
+        //         // sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://localhost:9000 -DskipTests=true'
+        //         sh 'mvn clean package sonar:sonar -Dspring.profiles.active=test -Dsonar.host.url=http://8095fdca.ngrok.io -DskipTests=true'
+        //       // }
+        //     }
+        // }
         // stage("Quality Gate") {
         //     steps {
         //       timeout(time: 1, unit: 'MINUTES') {
@@ -65,15 +65,15 @@ pipeline {
         //       }
         //     }
         // }
-        // stage('Deploy to Heroku') {
-        //     steps {
-        //         echo '-- Deploying project to Heroku --'
-        //         sh 'mvn clean heroku:deploy -Dspring.profiles.active=test'
-        //         slackSend(
-        //             color: "good", 
-        //             message: "Deployment to Heroku successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
-        //         )
-        //     }
-        // }
+        stage('Deploy to Heroku') {
+            steps {
+                echo '-- Deploying project to Heroku --'
+                sh 'mvn clean heroku:deploy -Dspring.profiles.active=test'
+                slackSend(
+                    color: "good", 
+                    message: "Deployment to Heroku successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
+                )
+            }
+        }
     }
 }
