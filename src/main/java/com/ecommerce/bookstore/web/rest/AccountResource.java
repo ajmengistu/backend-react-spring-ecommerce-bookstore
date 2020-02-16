@@ -2,6 +2,9 @@ package com.ecommerce.bookstore.web.rest;
 
 import javax.validation.Valid;
 
+import com.ecommerce.bookstore.domain.User;
+import com.ecommerce.bookstore.repository.UserRepository;
+import com.ecommerce.bookstore.service.UserService;
 import com.ecommerce.bookstore.web.rest.vm.UserVM;
 
 import org.slf4j.Logger;
@@ -22,7 +25,13 @@ public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-    public AccountResource() {
+    private final UserRepository userRepository;
+
+    private final UserService userService;
+
+    public AccountResource(UserRepository userRepository, UserService userService) {
+        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     /**
@@ -32,7 +41,8 @@ public class AccountResource {
      */
     @PostMapping("/register")
     public ResponseEntity<?> registerAccount(@Valid @RequestBody UserVM userVM) {
-        System.out.println(userVM.toString());
+        System.out.println(userVM);
+        User user = userService.registerUser(userVM);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("this was a bad reequest");
     }
 }

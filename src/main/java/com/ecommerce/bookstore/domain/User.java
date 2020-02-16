@@ -62,13 +62,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(nullable = false)
     private boolean activated = false;
 
-    @Size(max = 20)
-    @Column(name = "activation_key", length = 20)
+    @Size(max = 50)
+    @Column(name = "activation_key", length = 50)
     @JsonIgnore
     private String activationKey;
 
-    @Size(max = 20)
-    @Column(name = "reset_key", length = 20)
+    @Size(max = 50)
+    @Column(name = "reset_key", length = 50)
     @JsonIgnore
     private String resetKey;
 
