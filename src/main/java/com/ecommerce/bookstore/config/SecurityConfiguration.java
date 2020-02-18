@@ -22,8 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    // private final TokenProvider tokenProvider;
     private final SecurityProblemSupport securityProblemSupport;
+
     private final JWTFilter fJwtFilter;
 
     public SecurityConfiguration(SecurityProblemSupport securityProblemSupport, JWTFilter fJwtFilter) {
@@ -56,6 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .csrf()
             .disable()
+            // Make sure each request header from client contains a valid jwt 
+            // of the following key value form, Authorization: Bearer [valid Token]
             .addFilterBefore(fJwtFilter,UsernamePasswordAuthenticationFilter.class)
             .exceptionHandling()
             .authenticationEntryPoint(securityProblemSupport)
@@ -72,8 +74,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/admin").hasAuthority(AuthoritiesConstants.ADMIN)
         .and()
             .httpBasic();
-
-        // http
-        //     .addFilterBefore(fJwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

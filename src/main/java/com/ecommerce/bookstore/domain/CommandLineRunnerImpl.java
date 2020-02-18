@@ -22,7 +22,8 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
     private final PasswordEncoder passwordEncoder;
 
-    public CommandLineRunnerImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder) {
+    public CommandLineRunnerImpl(UserRepository userRepository, AuthorityRepository authorityRepository,
+            PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
@@ -39,24 +40,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                     a.setName(auth);
                     authorityRepository.save(a);
                 });
-
-        // User newUser = new User();
-        // String encryptedPassword = passwordEncoder.encode("Fiji");
-        // newUser.setUsername("Fiji");
-        // newUser.setPassword(encryptedPassword);
-        // newUser.setFirstName("Fiji");
-        // newUser.setLastName("Fiji");
-        // newUser.setEmail("fiji@co.com");
-        // // new user is not active
-        // newUser.setActivated(true);
-        // // new user gets a registration key
-        // newUser.setActivationKey(UUID.randomUUID().toString());
-        // Set<Authority> authorities = new HashSet<>();
-        // authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
-        // newUser.setAuthorities(authorities);
-        // newUser.setLastModifiedBy(newUser.getUsername());
-        // newUser.setCreatedBy(newUser.getUsername());
-        // userRepository.save(newUser);
 
         userRepository.findAll().forEach(System.out::println);
     }

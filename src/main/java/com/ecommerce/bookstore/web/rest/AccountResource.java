@@ -12,6 +12,7 @@ import com.ecommerce.bookstore.web.rest.vm.UserVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,5 +50,13 @@ public class AccountResource {
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody UserVM userVM) {
         User user = userService.registerUser(userVM);
+    }
+
+    /**
+     * {@code GET /home }
+     */
+    @GetMapping("/home")
+    public String getHome() {
+        return "Hello. This is your home.";
     }
 }

@@ -27,7 +27,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 /**
- * A Class to obtain.
+ * A class to create and validate a Json Web Token (JWT) for a User.
  */
 @Component
 public class TokenProvider implements InitializingBean {
@@ -38,6 +38,9 @@ public class TokenProvider implements InitializingBean {
 
     @Value("${app.jwt.token.secret}")
     private String secret;
+
+    @Value("${app.jwt.token.expiration}")
+    private Long expiration;
 
     private Key key;
 
@@ -59,13 +62,12 @@ public class TokenProvider implements InitializingBean {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
         // To Add for later: Set rememberMe: how long to remember user in millis
         return Jwts.builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
             .signWith(key, SignatureAlgorithm.HS512)
-            .setExpiration(new Date( now + 3600000))
+            .setExpiration(new Date(System.currentTimeMillis() + (expiration * 60 * 60 * 1000)))
             .compact();
     }
 

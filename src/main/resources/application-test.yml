@@ -29,5 +29,7 @@ app:
     jwt:
         token: 
             secret: 21bVPgn9p1pSfjUi5B57vuleRikZ0I3Q58ThEyhO6GAG3qTj4cJyNKuk/GFlpmu0QalAC1SVlOme2jHbHQ1x3w==
+            # 24 hours
+            expiration: 24
 # Command line: mvn spring-boot:run -Dspring-boot.run.profiles=test
 # shout out to: https://github.com/pavankjadda/BookStore

@@ -11,7 +11,6 @@ import com.ecommerce.bookstore.security.jwt.TokenProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    // @Autowired
     private TokenProvider tokenProvider;
 
     public JWTFilter(TokenProvider tokenProvider) {
