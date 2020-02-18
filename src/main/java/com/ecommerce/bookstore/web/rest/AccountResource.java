@@ -5,15 +5,17 @@ import javax.validation.Valid;
 import com.ecommerce.bookstore.domain.User;
 import com.ecommerce.bookstore.repository.UserRepository;
 import com.ecommerce.bookstore.service.UserService;
+import com.ecommerce.bookstore.web.rest.errors.EmailAlreadyUsedException;
+import com.ecommerce.bookstore.web.rest.errors.UsernameAlreadyUsedException;
 import com.ecommerce.bookstore.web.rest.vm.UserVM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -38,11 +40,14 @@ public class AccountResource {
      * {@code POST /register} : register the user.
      * 
      * @param userVM a user View Model.
+     * @throws UsernameAlreadyUsedException {@code 400 (Bad Request)} if the
+     *                                      username is already used.
+     * @throws EmailAlreadyUsedException    {@code 400 (Bad Request)} if the email
+     *                                      is already used.
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerAccount(@Valid @RequestBody UserVM userVM) {
-        System.out.println(userVM);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerAccount(@Valid @RequestBody UserVM userVM) {
         User user = userService.registerUser(userVM);
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("this was a bad reequest");
     }
 }

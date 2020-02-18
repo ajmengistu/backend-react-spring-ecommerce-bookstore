@@ -3,8 +3,6 @@ package com.ecommerce.bookstore.security;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import com.ecommerce.bookstore.domain.User;
 import com.ecommerce.bookstore.repository.UserRepository;
 import com.ecommerce.bookstore.web.rest.errors.UsernameNotActivatedException;
@@ -16,7 +14,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class DomainUserDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(DomainUserDetailsService.class);
@@ -40,9 +41,9 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     public org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseUsername,
             User user) {
-        if (!user.isActivated()) {
-            throw new UsernameNotActivatedException("User " + lowercaseUsername + " was not activated");
-        }
+        // if (!user.isActivated()) {
+            // throw new UsernameNotActivatedException("User " + lowercaseUsername + " was not activated");
+        // }
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getName())).collect(Collectors.toList());
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),

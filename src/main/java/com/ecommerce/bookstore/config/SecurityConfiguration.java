@@ -1,13 +1,19 @@
 package com.ecommerce.bookstore.config;
 
+import com.ecommerce.bookstore.security.AuthoritiesConstants;
+import com.ecommerce.bookstore.security.SecurityProblemSupport;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Web App Security Configuration.
@@ -17,8 +23,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     // private final TokenProvider tokenProvider;
+    private final SecurityProblemSupport securityProblemSupport;
+    private final JWTFilter fJwtFilter;
 
-    public SecurityConfiguration() {
+    public SecurityConfiguration(SecurityProblemSupport securityProblemSupport, JWTFilter fJwtFilter) {
+        this.securityProblemSupport = securityProblemSupport;
+        this.fJwtFilter = fJwtFilter;
     }
 
     @Bean
@@ -27,8 +37,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
+
+    @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/test/**");
+        // @formatter:off
+        web.ignoring()
+            .antMatchers("/test/**")
+            .antMatchers("/h2/**");
     }
 
     @Override
@@ -37,13 +56,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .csrf()
             .disable()
+            .addFilterBefore(fJwtFilter,UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling()
+            .authenticationEntryPoint(securityProblemSupport)
+            .accessDeniedHandler(securityProblemSupport)
+        .and()    
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
             .authorizeRequests()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
-            .antMatchers("/h2/**").permitAll()
+            .antMatchers("/api/activate").permitAll()
+            .antMatchers("/api/**").authenticated()
+            .antMatchers("/admin").hasAuthority(AuthoritiesConstants.ADMIN)
         .and()
-            .headers().frameOptions().disable();
-        // .and()
-        //     .httpBasic();
+            .httpBasic();
+
+        // http
+        //     .addFilterBefore(fJwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
