@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p> Dear <span th:text="${user.firstName}"></span>, </p>
+
+        <p>Your Bookstore account has been created, please click on the URL
+            below to activate it: </p>
+        <p>
+            <a
+                th:with="url=(@{|${baseUrl}/activate?key=${user.activationKey}|})"
+                th:href="${url}"
+                th:text="${url}"></a>
+        </p>
+
+        <p>Regards, </p>
+        <i>Bookstore Team</i>
+    </body>
+</html>

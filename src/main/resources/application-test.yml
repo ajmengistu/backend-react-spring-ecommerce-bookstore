@@ -1,7 +1,7 @@
-logging:
-    level:
-        ROOT: DEBUG
-        com.ecommerce.bookstore: DEBUG
+# logging:
+#     level:
+#         ROOT: DEBUG
+#         com.ecommerce.bookstore: DEBUG
 server:
     port: 8082
 
@@ -25,11 +25,26 @@ spring:
         console:
             enabled: true
             path: /h2
+    mail:
+        host: smtp.mailtrap.io 
+        port: 2525
+        username: 07c87891ea2850
+        password: f02d604396fef5
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+                        required: true
 app:
     jwt:
         token: 
             secret: 21bVPgn9p1pSfjUi5B57vuleRikZ0I3Q58ThEyhO6GAG3qTj4cJyNKuk/GFlpmu0QalAC1SVlOme2jHbHQ1x3w==
             # 24 hours
             expiration: 24
+    mail:
+        from: bookstore@localhost
+        base-url: http://127.0.0.1:8082
 # Command line: mvn spring-boot:run -Dspring-boot.run.profiles=test
 # shout out to: https://github.com/pavankjadda/BookStore

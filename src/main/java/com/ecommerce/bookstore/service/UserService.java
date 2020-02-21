@@ -1,6 +1,7 @@
 package com.ecommerce.bookstore.service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -84,5 +85,18 @@ public class UserService {
         userRepository.delete(existingUser);
         userRepository.flush();
         return true;
+    }
+
+    public Optional<User> activateRegistration(String key) {
+        // @formatter:off
+        log.debug("Activating user for activation key {}", key);
+        return userRepository.findOneByActivationKey(key)
+            .map(user -> {
+                // activate given user if activation key is valid.
+                user.setActivated(true);
+                user.setActivationKey(null);
+                log.debug("Activated user: {}", user);
+                return user;
+        });
     }
 }

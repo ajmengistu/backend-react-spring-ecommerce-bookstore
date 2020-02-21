@@ -1,4 +1,3 @@
-
 /**
  * Spring Security Configuration.
  */
