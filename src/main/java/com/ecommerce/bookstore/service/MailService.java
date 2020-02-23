@@ -84,4 +84,11 @@ public class MailService {
         String subject = "Bookstore account activation is required";
         sendEmailTemplate(user, "mail/activationEmail", subject);
     }
+
+    @Async
+    public void sendPasswordResetMail(User user) {
+        log.debug("Sending password reset email to '{}'", user.getEmail());
+        String subject = "Bookstore password reset";
+        sendEmailTemplate(user, "mail/passwordResetEmail", subject);
+    }
 }

@@ -11,7 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler({ UsernameAlreadyUsedException.class, EmailAlreadyUsedException.class })
+    @ExceptionHandler({ UsernameAlreadyUsedException.class, EmailAlreadyUsedException.class,
+            InvalidPasswordException.class, EmailNotFoundException.class })
     public void springHandleNotFound(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value());
     }
