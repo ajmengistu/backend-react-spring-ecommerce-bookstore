@@ -140,8 +140,6 @@ public class UserService {
     }
 
     public Optional<User> requestPasswordReset(String email) {
-        System.out.println("Inside requestPasswordReset");
-        System.out.println(userRepository.findOneByEmailIgnoreCase(email));
         return userRepository.findOneByEmailIgnoreCase(email).filter(User::isActivated).map(user -> {
             user.setResetKey(UUID.randomUUID().toString());
             user.setResetDate(Instant.now());

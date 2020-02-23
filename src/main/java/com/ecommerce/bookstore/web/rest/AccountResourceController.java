@@ -153,7 +153,6 @@ public class AccountResourceController {
      */
     @PostMapping(path = "/account/reset-password/init")
     public void requestPasswordReset(@RequestBody String email) {
-        System.out.println(email);
         mailService.sendPasswordResetMail(userService.requestPasswordReset(email)
                 .orElseThrow(() -> new EmailNotFoundException("Email address is not registered.")));
     }
