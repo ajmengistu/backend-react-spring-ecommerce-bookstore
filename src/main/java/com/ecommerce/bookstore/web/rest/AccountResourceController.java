@@ -8,6 +8,7 @@ import com.ecommerce.bookstore.domain.User;
 import com.ecommerce.bookstore.repository.UserRepository;
 import com.ecommerce.bookstore.service.MailService;
 import com.ecommerce.bookstore.service.UserService;
+import com.ecommerce.bookstore.service.dto.UserDTO;
 import com.ecommerce.bookstore.web.rest.errors.EmailAlreadyUsedException;
 import com.ecommerce.bookstore.web.rest.errors.UsernameAlreadyUsedException;
 import com.ecommerce.bookstore.web.rest.vm.UserVM;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
-public class AccountResource {
+public class AccountResourceController {
 
     private static class AccountResourceException extends RuntimeException {
         private AccountResourceException(String message) {
@@ -36,7 +37,7 @@ public class AccountResource {
         }
     }
 
-    private final Logger log = LoggerFactory.getLogger(AccountResource.class);
+    private final Logger log = LoggerFactory.getLogger(AccountResourceController.class);
 
     private final UserRepository userRepository;
 
@@ -44,7 +45,7 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountResourceController(UserRepository userRepository, UserService userService, MailService mailService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
@@ -83,10 +84,17 @@ public class AccountResource {
     }
 
     /**
-     * {@code GET /home }
+     * {@code GET /account} : get the current user.
+     * 
+     * @return the current user.
+     * @throws RuntimeException {@code 500 (Internal Server Error)} if the user
+     *                          couldn't be returned.
      */
-    @GetMapping("/home")
-    public String getHome() {
-        return "Hello. This is your home.";
+    @GetMapping("/account")
+    public UserDTO getAccount() {
+       // @formatter:off 
+        return userService.getUserWithAuthorities()
+            .map(UserDTO::new)
+            .orElseThrow(() -> new AccountResourceException("User could not be found"));
     }
 }

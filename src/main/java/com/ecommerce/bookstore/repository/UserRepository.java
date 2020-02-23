@@ -14,11 +14,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findAll();
+	List<User> findAll();
 
     Optional<User> findOneByUsername(String username);
 
     Optional<User> findOneByEmailIgnoreCase(String email);
 
 	Optional<User> findOneByActivationKey(String key);
+    
+    Optional<User> findOneWithAuthoritiesByUsername(String username);
 }

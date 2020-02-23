@@ -5,13 +5,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-
 import com.ecommerce.bookstore.domain.Authority;
 import com.ecommerce.bookstore.domain.User;
 import com.ecommerce.bookstore.repository.AuthorityRepository;
 import com.ecommerce.bookstore.repository.UserRepository;
 import com.ecommerce.bookstore.security.AuthoritiesConstants;
+import com.ecommerce.bookstore.security.SecurityUtils;
 import com.ecommerce.bookstore.web.rest.errors.EmailAlreadyUsedException;
 import com.ecommerce.bookstore.web.rest.errors.UsernameAlreadyUsedException;
 import com.ecommerce.bookstore.web.rest.vm.UserVM;
@@ -20,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service class for managing users.
@@ -99,4 +99,9 @@ public class UserService {
                 return user;
         });
     }
+
+    @Transactional(readOnly =true)
+	public Optional<User> getUserWithAuthorities() {
+        return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByUsername);
+	}
 }
