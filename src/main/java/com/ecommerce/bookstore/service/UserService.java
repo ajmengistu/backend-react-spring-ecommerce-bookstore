@@ -102,6 +102,25 @@ public class UserService {
 
     @Transactional(readOnly =true)
 	public Optional<User> getUserWithAuthorities() {
-        return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByUsername);
+        return SecurityUtils.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername);
+	}
+
+    /**
+     * Update basic information (firstName, lastName, email) for the current user.
+     * 
+     * @param firstName first name of user.
+     * @param lastName last name of user.
+     * @param email email id of user.
+     */
+	public void updateUser(String firstName, String lastName, String email) {
+        // @formatter:off
+        SecurityUtils.getCurrentUsername()
+            .flatMap(userRepository::findOneByUsername)
+            .ifPresent(user -> {
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                log.debug("Changed Information for User: {}", user);
+            });
 	}
 }

@@ -32,7 +32,7 @@ public class MailService {
 
     private final String USER = "user";
 
-    private final String baseUrl = "http://localhost:8082";
+    private final String baseUrl = "http://localhost:8082/api";
 
     private final String BASE_URL = "baseUrl";
 
