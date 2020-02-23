@@ -1,6 +1,5 @@
 package com.ecommerce.bookstore.domain;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "users")
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -259,7 +258,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Override
     public String toString() {
         return "User [activated=" + activated + ", activationKey=" + activationKey + ", authorities=" + authorities
-                + ", email=" + email + ", firstName=" + firstName + ", id=" + id + ", lastName=" + lastName + ", username="
-                + username + ", password=" + password + ", resetDate=" + resetDate + ", resetKey=" + resetKey + "]";
+                + ", email=" + email + ", firstName=" + firstName + ", id=" + id + ", lastName=" + lastName
+                + ", username=" + username + ", password=" + password + ", resetDate=" + resetDate + ", resetKey="
+                + resetKey + "]";
     }
 }
