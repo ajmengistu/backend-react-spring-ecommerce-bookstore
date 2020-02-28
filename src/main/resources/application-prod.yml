@@ -6,6 +6,10 @@ logging:
         com.ecommerce.bookstore: INFO
 server:
     port: 8080
+    error:
+        include-stacktrace: never # Keep dev tools and turn off stack trace on Server Response.
+
+
 spring:
     profiles:
         active: prod 

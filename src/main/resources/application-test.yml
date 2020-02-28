@@ -4,6 +4,8 @@
 #         com.ecommerce.bookstore: DEBUG
 server:
     port: 8082
+    error:
+        include-stacktrace: never # Keep dev tools and turn off stack trace on Server Response.
 
 spring:
     profiles:
