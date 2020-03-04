@@ -54,6 +54,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
+            .cors();
+        http
             .csrf()
             .disable()
             // Make sure each request header from client contains a valid jwt 
@@ -72,8 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
-            .antMatchers("/api/**").authenticated()
-            .antMatchers("/admin").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/api/**").authenticated() // Commenting and uncommenting this line fixes frontend react preflight issue.
         .and()
             .httpBasic();
     }

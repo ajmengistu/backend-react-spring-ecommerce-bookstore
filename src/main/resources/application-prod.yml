@@ -1,4 +1,5 @@
 # It's important that the -D parameters are before your application.jar otherwise they are not recognized.
+
 # java -jar -Dspring.profiles.active=prod application.jar
 logging:
     level:
@@ -8,20 +9,29 @@ server:
     port: 8080
     error:
         include-stacktrace: never # Keep dev tools and turn off stack trace on Server Response.
-
-
 spring:
     profiles:
         active: prod 
-
     jpa:
         hibernate:
             ddl-auto: create
         show-sql: true
-
     datasource:
         driver-class-name: org.postgresql.Driver
         url: ${SPRING_DATASOURCE_URL}
         username: ${SPRING_DATASOURCE_USERNAME}
         password: ${SPRING_DATASOURCE_PASSWORD}
+app:
+    jwt:
+        token: 
+            secret: 21bVPgn9p1pSfjUi5B57vuleRikZ0I3Q58ThEyhO6GAG3qTj4cJyNKuk/GFlpmu0QalAC1SVlOme2jHbHQ1x3w==
+            expiration: 24 # 24 hours
+    mail:
+        from: bookstore@localhost
+        base-url: http://127.0.0.1:8082
+    cors:
+        allowed-origins: 
+            - https://frontend-bookstore-react-sp.herokuapp.com
+            - https://frontend-bookstore-react-spring.netlify.com
+
 # Command line: mvn spring-boot:run -Dspring-boot.run.profiles=default (or) mvn spring-boot:run 
