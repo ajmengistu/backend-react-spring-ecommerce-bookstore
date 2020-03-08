@@ -10,7 +10,7 @@
             below to activate it: </p>
         <p>
             <a
-                th:with="url=(@{|${baseUrl}/activate?key=${user.activationKey}|})"
+                th:with="url=(@{|${baseUrl}/activate/key=${user.activationKey}|})"
                 th:href="${url}"
                 th:text="${url}"></a>
         </p>
