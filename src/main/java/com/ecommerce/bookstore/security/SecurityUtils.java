@@ -24,12 +24,10 @@ public final class SecurityUtils {
     public static Optional<String> getCurrentUsername() {
        // @formatter:off 
        SecurityContext securityContext = SecurityContextHolder.getContext();
-       System.out.println(securityContext);
        return Optional.ofNullable(securityContext.getAuthentication())
             .map(authentication -> {
                 if (authentication.getPrincipal() instanceof UserDetails) {
                     UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-       System.out.println(springSecurityUser.getUsername());
                     return springSecurityUser.getUsername();
                 } else if (authentication.getPrincipal() instanceof String) {
                     return (String) authentication.getPrincipal();

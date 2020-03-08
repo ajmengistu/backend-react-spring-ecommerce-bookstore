@@ -14,7 +14,6 @@ import com.ecommerce.bookstore.domain.User;
 /**
  * A DTO representing a user, with his authorities.
  */
-
 public class UserDTO {
 
     private Long id;

@@ -1,6 +1,5 @@
 package com.ecommerce.bookstore.config;
 
-import com.ecommerce.bookstore.security.AuthoritiesConstants;
 import com.ecommerce.bookstore.security.SecurityProblemSupport;
 
 import org.springframework.context.annotation.Bean;

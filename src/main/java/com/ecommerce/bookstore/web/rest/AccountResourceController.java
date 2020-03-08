@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for managing the current user's account.
+ * 
+ * Source: Jhipster.tech (React + Spring).
  */
 @RestController
 @RequestMapping("/api")
@@ -72,7 +74,8 @@ public class AccountResourceController {
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody UserVM userVM) {
         User user = userService.registerUser(userVM);
-        System.out.println(user);
+        // System.out.println("----------------------------------------------");
+        // System.out.println();
         mailService.sendActivationEmail(user);
     }
 
@@ -105,7 +108,7 @@ public class AccountResourceController {
     }
 
     /**
-     * {@code POST /account} : update the current user information.
+     * {@code POST /account} : update the current user information (firstName, lastName, and Email).
      * 
      * @param userDto the current user information.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is
@@ -119,7 +122,7 @@ public class AccountResourceController {
                 .orElseThrow(() -> new AccountResourceException("Current user username is not found."));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDto.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getUsername().equalsIgnoreCase(currentUserUsername))) {
-            throw new EmailAlreadyUsedException("Email and username already exist!");
+            throw new EmailAlreadyUsedException("There is already an email associated with that username!");
         }
         Optional<User> user = userRepository.findOneByUsername(currentUserUsername);
         if (!user.isPresent()) {
