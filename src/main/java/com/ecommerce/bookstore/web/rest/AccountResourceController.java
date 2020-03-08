@@ -117,9 +117,10 @@ public class AccountResourceController {
      */
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody UserDTO userDto) {
-        String currentUserUsername = SecurityUtils.getCurrentUsername()
+        String currentUserUsername = SecurityUtils.getCurrentUsername() // Make sure the user is signed in.
                 .orElseThrow(() -> new AccountResourceException("Current user username is not found."));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDto.getEmail());
+        // Make sure the NEW email does not already belong to the current user.
         if (existingUser.isPresent() && (!existingUser.get().getUsername().equalsIgnoreCase(currentUserUsername))) {
             throw new EmailAlreadyUsedException("There is already an email associated with that username!");
         }
