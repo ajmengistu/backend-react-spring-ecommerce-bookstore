@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.mail.internet.MimeMessage;
 
 import com.ecommerce.bookstore.domain.User;
+import com.ecommerce.bookstore.web.rest.vm.UserVM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +32,6 @@ public class MailService {
     private final String SENDER = "bookstore@localhost";
 
     private final String USER = "user";
-
-    private final String baseUrl = "http://localhost:8082/api";
 
     private final String BASE_URL = "baseUrl";
 
@@ -69,7 +68,7 @@ public class MailService {
     }
 
     @Async
-    public void sendEmailTemplate(User user, String templateName, String subject) {
+    public void sendEmailTemplate(User user, String templateName, String subject, String baseUrl) {
         Locale locale = Locale.forLanguageTag(Locale.ENGLISH.getLanguage());
         Context context = new Context(locale);
         context.setVariable(USER, user);
@@ -79,16 +78,16 @@ public class MailService {
     }
 
     @Async
-    public void sendActivationEmail(User user) {
+    public void sendActivationEmail(User user, UserVM userVM) {
         log.debug("Sending activation email to '{}'", user.getEmail());
         String subject = "Bookstore account activation is required";
-        sendEmailTemplate(user, "mail/activationEmail", subject);
+        sendEmailTemplate(user, "mail/activationEmail", subject, userVM.getClientOrigin());
     }
 
     @Async
-    public void sendPasswordResetMail(User user) {
+    public void sendPasswordResetMail(User user, String clientOrigin) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         String subject = "Bookstore password reset";
-        sendEmailTemplate(user, "mail/passwordResetEmail", subject);
+        sendEmailTemplate(user, "mail/passwordResetEmail", subject, clientOrigin);
     }
 }

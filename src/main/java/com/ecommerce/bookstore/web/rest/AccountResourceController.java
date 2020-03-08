@@ -74,9 +74,7 @@ public class AccountResourceController {
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody UserVM userVM) {
         User user = userService.registerUser(userVM);
-        // System.out.println("----------------------------------------------");
-        // System.out.println();
-        mailService.sendActivationEmail(user);
+        mailService.sendActivationEmail(user, userVM);
     }
 
     /**
@@ -108,7 +106,8 @@ public class AccountResourceController {
     }
 
     /**
-     * {@code POST /account} : update the current user information (firstName, lastName, and Email).
+     * {@code POST /account} : update the current user information (firstName,
+     * lastName, and Email).
      * 
      * @param userDto the current user information.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is
@@ -158,8 +157,9 @@ public class AccountResourceController {
      */
     @PostMapping(path = "/account/reset-password/init")
     public void requestPasswordReset(@RequestBody String email) {
+        String clientOrigin = "";
         mailService.sendPasswordResetMail(userService.requestPasswordReset(email)
-                .orElseThrow(() -> new EmailNotFoundException("Email address is not registered.")));
+                .orElseThrow(() -> new EmailNotFoundException("Email address is not registered.")), clientOrigin);
     }
 
     /**

@@ -28,6 +28,10 @@ public class UserVM {
     @Size(min = 2, max = 50)
     private String lastName;
 
+    // The host/origin address of where the frontend/client app is hosted on.
+    // Needed for sending email to the client/user.
+    private String clientOrigin;
+
     public String getUsername() {
         return username;
     }
@@ -68,9 +72,18 @@ public class UserVM {
         this.lastName = lastName;
     }
 
+    public String getClientOrigin() {
+        return clientOrigin;
+    }
+
+    public void setClientOrigin(String clientOrigin) {
+        this.clientOrigin = clientOrigin;
+    }
+
     @Override
     public String toString() {
-        return "UserVM [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
-                + password + ", username=" + username + "]";
+        return "UserVM [clientOrigin=" + clientOrigin + ", email=" + email + ", firstName=" + firstName + ", lastName="
+                + lastName + ", password=" + password + ", username=" + username + "]";
     }
+
 }
