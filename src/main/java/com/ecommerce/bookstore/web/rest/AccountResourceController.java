@@ -16,6 +16,7 @@ import com.ecommerce.bookstore.web.rest.errors.EmailNotFoundException;
 import com.ecommerce.bookstore.web.rest.errors.InvalidPasswordException;
 import com.ecommerce.bookstore.web.rest.errors.UsernameAlreadyUsedException;
 import com.ecommerce.bookstore.web.rest.vm.KeyAndPasswordVM;
+import com.ecommerce.bookstore.web.rest.vm.PasswordResetVM;
 import com.ecommerce.bookstore.web.rest.vm.UserVM;
 
 import org.springframework.http.HttpStatus;
@@ -157,10 +158,11 @@ public class AccountResourceController {
      *                                is not registered.
      */
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String email) {
-        String clientOrigin = "";
-        mailService.sendPasswordResetMail(userService.requestPasswordReset(email)
-                .orElseThrow(() -> new EmailNotFoundException("Email address is not registered.")), clientOrigin);
+    public void requestPasswordReset(@RequestBody PasswordResetVM passwordResetVm) {
+        mailService.sendPasswordResetMail(
+                userService.requestPasswordReset(passwordResetVm.getEmail())
+                        .orElseThrow(() -> new EmailNotFoundException("Email address is not registered.")),
+                passwordResetVm.getClientOrigin());
     }
 
     /**
@@ -173,7 +175,7 @@ public class AccountResourceController {
      * @throws RuntimeException         {@code 500 (Internal Server Error)} if the
      *                                  password could not be reset.
      */
-    @PostMapping(path = "/account/reset-password/finish")
+    @PostMapping(path = "/account/reset -password/finish")
     public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPasswordVm) {
         if (!checkPasswordLength(keyAndPasswordVm.getNewPassword())) {
             throw new InvalidPasswordException("Password is invalid.");
