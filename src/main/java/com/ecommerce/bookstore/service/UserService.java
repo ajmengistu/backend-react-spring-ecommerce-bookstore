@@ -131,7 +131,7 @@ public class UserService {
         SecurityUtils.getCurrentUsername().flatMap(userRepository::findOneByUsername).ifPresent(user -> {
             String currentEncryptedPassword = user.getPassword();
             if (!passwordEncoder.matches(currentNotEncryptedPassword, currentEncryptedPassword)) {
-                throw new InvalidPasswordException("New password does not match existing password!");
+                throw new InvalidPasswordException("Current password does not match existing password!");
             }
             String encryptedPassword = passwordEncoder.encode(newPassword);
             user.setPassword(encryptedPassword);
