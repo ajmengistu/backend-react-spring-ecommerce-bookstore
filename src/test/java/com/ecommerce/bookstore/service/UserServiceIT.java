@@ -1,6 +1,7 @@
 package com.ecommerce.bookstore.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -12,6 +13,9 @@ import javax.transaction.Transactional;
 import com.ecommerce.bookstore.BookstoreApplication;
 import com.ecommerce.bookstore.domain.User;
 import com.ecommerce.bookstore.repository.UserRepository;
+import com.ecommerce.bookstore.web.rest.errors.EmailAlreadyUsedException;
+import com.ecommerce.bookstore.web.rest.errors.UsernameAlreadyUsedException;
+import com.ecommerce.bookstore.web.rest.vm.UserVM;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,6 +75,83 @@ public class UserServiceIT {
         assertThat(maybeUser.orElse(null).getEmail()).isEqualTo(user.getEmail());
         assertThat(maybeUser.orElse(null).getEmail()).isNotNull();
         assertThat(maybeUser.orElse(null).getResetKey()).isNotNull();
+    }
+
+    @Transactional
+    @Test
+    public void assertThatUsernameMustNotAlreadyExistToRegister() {
+        userRepository.saveAndFlush(user);
+
+        UserVM newUser = new UserVM();
+        newUser.setUsername(DEFAULT_USERNAME);
+
+        assertThrows(UsernameAlreadyUsedException.class, () -> userService.registerUser(newUser));
+
+        userRepository.delete(user);
+    }
+
+    @Transactional
+    @Test
+    public void assertThatUserEmailMustNotAlreadyExistToRegister() {
+        userRepository.saveAndFlush(user);
+
+        UserVM newUser = new UserVM();
+        newUser.setUsername("newUsername");
+        newUser.setEmail(DEFAULT_EMAIL);
+
+        assertThrows(EmailAlreadyUsedException.class, () -> userService.registerUser(newUser));
+
+        userRepository.delete(user);
+    }
+
+    @Transactional
+    @Test
+    public void assertThatANewUserCanRegisterAndUserIsNotActivated() {
+        UserVM newUser = new UserVM();
+        newUser.setUsername("NewUsername");
+        newUser.setPassword("newPassword");
+        newUser.setEmail("valid.newEmail@co.com");
+        newUser.setFirstName("New");
+        newUser.setLastName("User");
+
+        User user = userService.registerUser(newUser);
+
+        assertThat(user.getFirstName()).isEqualTo("New");
+        assertThat(user.isActivated()).isFalse();
+    }
+
+    // Todo: updateUser(), changePassword()
+
+    @Transactional
+    @Test
+    public void assertThatActivationKeyIsValid() {
+        String activationKey = UUID.randomUUID().toString();
+        user.setActivated(false);
+        user.setActivationKey(UUID.randomUUID().toString());
+        userRepository.saveAndFlush(user);
+
+        Optional<User> maybeUser = userService.activateRegistration(activationKey);
+
+        assertThat(maybeUser).isNotPresent();
+        assertThat(user.isActivated()).isFalse();
+
+        userRepository.delete(user);
+    }
+
+    @Transactional
+    @Test
+    public void assertThatUserMustExistWithAValidActivationKey() {
+        String activationKey = UUID.randomUUID().toString();
+        user.setActivationKey(activationKey);
+        user.setActivated(false);
+        userRepository.save(user);
+
+        Optional<User> maybeUser = userService.activateRegistration(activationKey);
+
+        assertThat(maybeUser).isPresent();
+        assertThat(user.isActivated()).isTrue();
+
+        userRepository.delete(user);
     }
 
     @Test
