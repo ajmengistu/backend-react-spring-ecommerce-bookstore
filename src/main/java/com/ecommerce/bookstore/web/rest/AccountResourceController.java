@@ -19,6 +19,8 @@ import com.ecommerce.bookstore.web.rest.vm.KeyAndPasswordVM;
 import com.ecommerce.bookstore.web.rest.vm.PasswordResetVM;
 import com.ecommerce.bookstore.web.rest.vm.UserVM;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,8 +49,7 @@ public class AccountResourceController {
         }
     }
 
-    // private final Logger log =
-    // LoggerFactory.getLogger(AccountResourceController.class);
+    private final Logger log = LoggerFactory.getLogger(AccountResourceController.class);
 
     private final UserRepository userRepository;
 
@@ -74,6 +75,7 @@ public class AccountResourceController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody UserVM userVM) {
+        log.debug("Account registration requested by, {}", userVM);
         User user = userService.registerUser(userVM);
         mailService.sendActivationEmail(user, userVM);
     }
@@ -175,7 +177,7 @@ public class AccountResourceController {
      * @throws RuntimeException         {@code 500 (Internal Server Error)} if the
      *                                  password could not be reset.
      */
-    @PostMapping(path = "/account/reset -password/finish")
+    @PostMapping(path = "/account/reset-password/finish")
     public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPasswordVm) {
         if (!checkPasswordLength(keyAndPasswordVm.getNewPassword())) {
             throw new InvalidPasswordException("Password is invalid.");

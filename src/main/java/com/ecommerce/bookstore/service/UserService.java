@@ -45,6 +45,12 @@ public class UserService {
         this.authorityRepository = authorityRepository;
     }
 
+    /**
+     * Register a new User.
+     * 
+     * @param userVM A user registration information.
+     * @return The registered user.
+     */
     public User registerUser(UserVM userVM) {
         // username AND email must not already exist.
         userRepository.findOneByUsername(userVM.getUsername().toLowerCase()).ifPresent(existingUser -> {
@@ -80,6 +86,13 @@ public class UserService {
         return newUser;
     }
 
+    /**
+     * Remove a non-active user.
+     * 
+     * @param existingUser
+     * @return True, if the user is deleted. False, if the user is already
+     *         activated.
+     */
     private boolean removeNonActivatedUser(User existingUser) {
         if (existingUser.isActivated()) {
             return false;
@@ -89,6 +102,12 @@ public class UserService {
         return true;
     }
 
+    /**
+     * Activate the newly registered user.
+     * 
+     * @param key Activation code/key emailed to the newly registered user.
+     * @return An Optional
+     */
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository.findOneByActivationKey(key).map(user -> {
@@ -139,6 +158,13 @@ public class UserService {
         });
     }
 
+    /**
+     * Assign the user with a password reset key/token and token expiration date.
+     * 
+     * @param email
+     * @return The user that requested password reset with a password reset token
+     *         and expiration date.
+     */
     public Optional<User> requestPasswordReset(String email) {
         return userRepository.findOneByEmailIgnoreCase(email).filter(User::isActivated).map(user -> {
             user.setResetKey(UUID.randomUUID().toString());
@@ -147,6 +173,10 @@ public class UserService {
         });
     }
 
+    /**
+     * Complete the password reset request by verifying that the reset key/token and
+     * key/token expiration date are both valid.
+     */
     public Optional<User> completePasswordReset(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
         return userRepository.findOneByResetKey(key)

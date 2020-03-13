@@ -21,7 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * Integration tests for {@link UserService}.
  * 
- * Source: UserServiceIT.java Jhipster.
+ * Source: UserServiceIT.java in Jhipster web generator.
  */
 @SpringBootTest(classes = BookstoreApplication.class)
 @Transactional
@@ -60,10 +60,13 @@ public class UserServiceIT {
     @Transactional
     public void assertThatUserMustExistToResetPassword() {
         userRepository.saveAndFlush(user);
-        Optional<User> maybeUser = userService.requestPasswordReset("invalidEmail@co.com");
+
+        Optional<User> maybeUser = userService.requestPasswordReset("invalid.Email@co.com");
+
         assertThat(maybeUser).isNotPresent();
 
         maybeUser = userService.requestPasswordReset(user.getEmail());
+
         assertThat(maybeUser).isPresent();
         assertThat(maybeUser.orElse(null).getEmail()).isEqualTo(user.getEmail());
         assertThat(maybeUser.orElse(null).getEmail()).isNotNull();
@@ -77,7 +80,9 @@ public class UserServiceIT {
         userRepository.saveAndFlush(user);
 
         Optional<User> maybeUser = userService.requestPasswordReset(user.getEmail());
+
         assertThat(maybeUser).isNotPresent();
+
         userRepository.delete(user);
     }
 
@@ -85,19 +90,37 @@ public class UserServiceIT {
     @Transactional
     public void assertThatResetKeyMustNotBeOlderThan24Hours() {
         Instant daysAgo = Instant.now().minus(25, ChronoUnit.HOURS);
+        String resetKey = UUID.randomUUID().toString();
         user.setActivated(true);
         user.setResetDate(daysAgo);
-        user.setResetKey(UUID.randomUUID().toString());
+        user.setResetKey(resetKey);
         userRepository.saveAndFlush(user);
 
         Optional<User> maybeUser = userService.completePasswordReset("newPassword", user.getResetKey());
+
         assertThat(maybeUser).isNotPresent();
+
         userRepository.delete(user);
     }
 
-    // @Test
-    // @Transactional
-    // public void assertThatUserCanResetPassword() {
-    // String oldPassword = user.getPassword();
-    // }
+    @Test
+    @Transactional
+    public void assertThatUserCanResetPassword() {
+        String oldPassword = user.getPassword();
+        Instant daysAgo = Instant.now().minus(2, ChronoUnit.HOURS);
+        String resetKey = UUID.randomUUID().toString();
+        user.setActivated(true);
+        user.setResetDate(daysAgo);
+        user.setResetKey(resetKey);
+        userRepository.saveAndFlush(user);
+
+        Optional<User> maybeUser = userService.completePasswordReset("newPassword", user.getResetKey());
+
+        assertThat(maybeUser).isPresent();
+        assertThat(maybeUser.orElse(null).getResetKey()).isNull();
+        assertThat(maybeUser.orElse(null).getResetDate()).isNull();
+        assertThat(maybeUser.orElse(null).getPassword()).isNotEqualTo(oldPassword);
+
+        userRepository.delete(user);
+    }
 }
