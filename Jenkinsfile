@@ -43,7 +43,7 @@ pipeline {
         stage('Test') {
             steps {
                echo '-- Testing project --'
-               sh 'mvn test -Dspring.profiles.active=test -DargLine=-Djdk.net.URLClassPath.disableClassPathURLCheck=true'
+               sh 'mvn test -Dspring.profiles.active=test'
                slackSend(
                    color: "good", 
                    message: "Tests successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
@@ -70,7 +70,7 @@ pipeline {
                 echo '-- Deploying project to Heroku --'
                 // The prod application is specified in the heroku plugin in pom.xml.
                 // The following command heroku:deploy is referencing the heroku plugin in pom.xml.
-                sh 'mvn clean heroku:deploy -Dspring.profiles.active=test'
+                sh 'mvn clean heroku:deploy -Dspring.profiles.active=test -DskipTests=true'
                 slackSend(
                     color: "good", 
                     message: "Deployment to Heroku successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"

@@ -26,12 +26,16 @@ public class GlobalCorsConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 // Note: (important)
                 // registry.addMapping("/**") will not not work for this app api because the
-                // root mapping is requestMapping("/api") see (AccountResourceController class). Thus, use
+                // root mapping is requestMapping("/api") see (AccountResourceController class).
+                // Thus, use
                 // registry.addMapping("/api/**")
                 registry.addMapping("/api/**")
                         .allowedOrigins(applicationPropertiesConfiguration.getCors().getAllowedOrigins().toArray(
                                 new String[applicationPropertiesConfiguration.getCors().getAllowedOrigins().size()]));
-
+                                
+                applicationPropertiesConfiguration.getCors().getAllowedOrigins().forEach(origin -> {
+                    System.out.println(origin);
+                });
             }
         };
     }
