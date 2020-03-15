@@ -147,7 +147,7 @@
 						<include>**/*IT*</include>
 						<include>**/*IntTest*</include>
 					</includes>
-					<useSystemClassLoader>false</useSystemClassLoader>
+					<forkCount>0</forkCount>
 				</configuration>
 			</plugin>
 		</plugins>

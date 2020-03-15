@@ -42,7 +42,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-               echo '-- Testing project --'        
+               echo '-- Testing project --'
                sh 'mvn test -Dspring.profiles.active=test -DargLine=-Djdk.net.URLClassPath.disableClassPathURLCheck=true'
                slackSend(
                    color: "good", 
