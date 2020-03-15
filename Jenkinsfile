@@ -68,6 +68,8 @@ pipeline {
         stage('Deploy to Heroku') {
             steps {
                 echo '-- Deploying project to Heroku --'
+                // The prod application is specified in the heroku plugin in pom.xml.
+                // The following command heroku:deploy is referencing the heroku plugin in pom.xml.
                 sh 'mvn clean heroku:deploy -Dspring.profiles.active=test'
                 slackSend(
                     color: "good", 
