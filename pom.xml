@@ -67,11 +67,6 @@
 			<version>1.4.200</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.zalando</groupId>
-			<artifactId>problem-spring-web</artifactId>
-			<version>0.25.2</version>
-		</dependency> -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -148,13 +143,11 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
-					<!-- Force alphabetical order to have a reproducible build -->
-					<runOrder>alphabetical</runOrder>
-					<reportsDirectory>${junit.utReportFolder}</reportsDirectory>
 					<includes>
 						<include>**/*IT*</include>
 						<include>**/*IntTest*</include>
 					</includes>
+					<useSystemClassLoader>false</useSystemClassLoader>
 				</configuration>
 			</plugin>
 		</plugins>
