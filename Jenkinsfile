@@ -43,7 +43,7 @@ pipeline {
         stage('Test') {
             steps {
                echo '-- Testing project --'        
-               sh 'mvn test -Dspring.profiles.active=test'
+               sh 'mvn test -Dspring.profiles.active=test -DargLine=-Djdk.net.URLClassPath.disableClassPathURLCheck=true'
                slackSend(
                    color: "good", 
                    message: "Tests successful: `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
