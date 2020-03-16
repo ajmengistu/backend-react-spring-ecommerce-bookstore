@@ -29,7 +29,6 @@ public class UserResource {
      */
     @GetMapping("/users")
     public List<User> getAllUsers() {
-        System.out.print(userRepository.findAll());
         return userRepository.findAll();
     }
 }

@@ -15,7 +15,7 @@ spring:
     jpa:
         hibernate:
             ddl-auto: create
-        show-sql: true
+        show-sql: false 
     datasource:
         driver-class-name: org.postgresql.Driver
         url: ${SPRING_DATASOURCE_URL}

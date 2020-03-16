@@ -32,10 +32,6 @@ public class GlobalCorsConfiguration {
                 registry.addMapping("/api/**")
                         .allowedOrigins(applicationPropertiesConfiguration.getCors().getAllowedOrigins().toArray(
                                 new String[applicationPropertiesConfiguration.getCors().getAllowedOrigins().size()]));
-                                
-                applicationPropertiesConfiguration.getCors().getAllowedOrigins().forEach(origin -> {
-                    System.out.println(origin);
-                });
             }
         };
     }
