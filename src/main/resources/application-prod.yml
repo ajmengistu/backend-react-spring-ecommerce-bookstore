@@ -21,6 +21,18 @@ spring:
         url: ${SPRING_DATASOURCE_URL}
         username: ${SPRING_DATASOURCE_USERNAME}
         password: ${SPRING_DATASOURCE_PASSWORD}
+    mail:
+        host: smtp.mailtrap.io
+        port: 2525
+        username: a29d3bf8f10124
+        password: 76422c95d8a2bc
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+                        required: true
 app:
     jwt:
         token: 

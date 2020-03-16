@@ -24,10 +24,10 @@ spring:
             enabled: true
             path: /h2
     mail:
-        host: smtp.mailtrap.io 
+        host: smtp.mailtrap.io
         port: 2525
-        username: a29d3bf8f10124 
-        password: 76422c95d8a2bc 
+        username: a29d3bf8f10124
+        password: 76422c95d8a2bc
         properties:
             mail:
                 smtp:
