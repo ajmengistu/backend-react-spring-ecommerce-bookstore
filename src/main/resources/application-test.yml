@@ -50,4 +50,5 @@ app:
 
 # Notes:
 # Command line: mvn spring-boot:run -Dspring-boot.run.profiles=test
+# To generate jacoco report. Find in (target/site/jacoco/index.html): mvn test -Dspring.profiles.active=test jacoco:report
 # Source to help create test, dev, & prod profile yaml files: https://github.com/pavankjadda/BookStore

@@ -1,0 +1,44 @@
+sudo: true
+language: java
+jdk: openjdk8
+
+branches:
+    only:
+        - master
+
+# services:
+#     - docker
+
+addons:
+    sonarcloud:
+        organization: "ajmengistu"
+        token: $SONAR_TOKEN
+            # secure: $SONAR_TOKEN
+
+# Build project
+# Run unit & integration tests.
+# Run Jacoco code coverage & send results to SonarCloud
+script:
+    # build the project, run the tests with Jacoco coverage 
+    # and then execute the SonarCloud analysis.
+    - mvn clean verify jacoco:report sonar:sonar -Dsonar.projectKey=ajmengistu_backend-react-spring-ecommerce-bookstore
+
+# Create a Docker image of the project for deployment.
+
+# Deploy docker image of the project to Heroku.
+# deploy:
+#     provider: heroku
+#     keep-history: true
+#     api_key: $HEROKU_API_KEY
+#     app: frontend-bookstore-react-sp
+
+# Slack Notifications
+notifications:
+  slack:
+    template:
+      - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
+    rooms:
+      - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#general
+      - aj-vdw7889:d8sCDUQsrGFxKK0dROtUnLqm#backend-spring-bookstore
+    on_success: always # default: always
+    on_failure: always # default: always
