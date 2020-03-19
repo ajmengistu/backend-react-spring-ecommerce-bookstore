@@ -5,6 +5,10 @@ jdk: openjdk8
 before_install:
   - chmod +x mvnw
 
+cache:
+  directories:
+    - $HOME/.m2 
+
 branches:
     only:
         - master
@@ -24,7 +28,7 @@ addons:
 script:
     # build the project, run the tests with Jacoco coverage 
     # and then execute the SonarCloud analysis.
-    - mvn clean verify jacoco:report sonar:sonar -Dsonar.projectKey=ajmengistu_backend-react-spring-ecommerce-bookstore
+    - mvn clean verify -Dspring.profiles.active=test jacoco:report sonar:sonar -Dsonar.projectKey=ajmengistu_backend-react-spring-ecommerce-bookstore
 
 # Create a Docker image of the project for deployment.
 
