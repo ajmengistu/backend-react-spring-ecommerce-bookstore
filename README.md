@@ -1,1 +1,1 @@
-# backend-react-spring-ecommerce-bookstore
+# An Ecommerce and Social Cataloging Application
